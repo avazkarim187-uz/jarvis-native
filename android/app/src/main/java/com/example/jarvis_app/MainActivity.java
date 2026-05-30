@@ -41,7 +41,6 @@ import java.util.concurrent.Executors;
 
 public class MainActivity extends Activity {
     private static final int REQ_AUDIO = 1001;
-    private static final String API_KEY = "YOUR_GEMINI_API_KEY";
     private static final String MODEL_URL =
             "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=";
 
@@ -194,8 +193,8 @@ public class MainActivity extends Activity {
     }
 
     private void askGemini(String text) {
-        if ("YOUR_GEMINI_API_KEY".equals(API_KEY)) {
-            addMessage("Jarvis", "Gemini API key sozlanmagan. MainActivity.java ichida API_KEY qiymatini kiriting.");
+        if (BuildConfig.GEMINI_API_KEY == null || BuildConfig.GEMINI_API_KEY.trim().isEmpty()) {
+            addMessage("Jarvis", "Gemini API key sozlanmagan. GitHub Secrets ichiga GEMINI_API_KEY qo'shing.");
             return;
         }
         status.setText("Thinking...");
@@ -228,7 +227,7 @@ public class MainActivity extends Activity {
         contents.put(content);
         root.put("contents", contents);
 
-        URL url = new URL(MODEL_URL + API_KEY);
+        URL url = new URL(MODEL_URL + BuildConfig.GEMINI_API_KEY);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("POST");
         conn.setConnectTimeout(20000);

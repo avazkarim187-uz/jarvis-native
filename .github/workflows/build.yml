@@ -22,6 +22,8 @@ jobs:
 
       - name: Build APK
         working-directory: android
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: gradle :app:assembleRelease --no-daemon
 
       - name: Upload APK
